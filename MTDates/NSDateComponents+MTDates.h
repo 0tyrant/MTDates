@@ -17,9 +17,9 @@
 
 @interface NSDateComponents (MTDates)
 
-+ (NSDateComponents *)mt_componentsFromString:(NSString *)string;
-- (NSString *)mt_stringValue;
-- (BOOL)mt_isEqualToDateComponents:(NSDateComponents *)components;
++ (NSDateComponents *)componentsFromString:(NSString *)string;
+- (NSString *)stringValue;
+- (BOOL)isEqualToDateComponents:(NSDateComponents *)components;
 
 #if MTDATES_NO_PREFIX
 

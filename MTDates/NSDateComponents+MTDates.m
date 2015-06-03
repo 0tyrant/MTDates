@@ -12,7 +12,7 @@
 @implementation NSDateComponents (MTDates)
 
 
-+ (NSDateComponents *)mt_componentsFromString:(NSString *)string
++ (NSDateComponents *)componentsFromString:(NSString *)string
 {
   NSDateComponents *comps = [[NSDateComponents alloc] init];
   if (!string) return comps;
@@ -20,15 +20,15 @@
   NSArray *parts = [string componentsSeparatedByString:@" "];
   for (NSString *part in parts) {
     if (part.length == 4 && [part rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location != NSNotFound) {
-      [comps setYear:[[NSDate mt_dateFromString:part usingFormat:@"yyyy"] mt_year]];
+      [comps setYear:[[NSDate dateFromString:part usingFormat:@"yyyy"] year]];
       continue;
     }
     if ([part rangeOfCharacterFromSet:[NSCharacterSet letterCharacterSet]].location != NSNotFound) {
-      [comps setMonth:[[NSDate mt_dateFromString:part usingFormat:@"MMMM"] mt_monthOfYear]];
+      [comps setMonth:[[NSDate dateFromString:part usingFormat:@"MMMM"] monthOfYear]];
       continue;
     }
     if (part.length == 2) {
-      [comps setDay:[[NSDate mt_dateFromString:part usingFormat:@"dd"] mt_dayOfMonth]];
+      [comps setDay:[[NSDate dateFromString:part usingFormat:@"dd"] dayOfMonth]];
       continue;
     }
   }
@@ -42,28 +42,28 @@
   return comps;
 }
 
-- (NSString *)mt_stringValue
+- (NSString *)stringValue
 {
   NSMutableArray *partsArray = [NSMutableArray array];
   NSDateComponents *required = [self copy];
   required.year = self.year   == NSDateComponentUndefined ? 1970  : self.year;
   required.month  = self.month  == NSDateComponentUndefined ? 1   : self.month;
   required.day  = self.day    == NSDateComponentUndefined ? 1   : self.day;
-  NSDate *date = [NSDate mt_dateFromComponents:required];
+  NSDate *date = [NSDate dateFromComponents:required];
 
   if ([self day] != NSDateComponentUndefined) {
-    [partsArray addObject:[date mt_stringFromDateWithFormat:@"dd" localized:NO]];
+    [partsArray addObject:[date stringFromDateWithFormat:@"dd" localized:NO]];
   }
   if ([self month] != NSDateComponentUndefined) {
-    [partsArray addObject:[date mt_stringFromDateWithFormat:@"MMMM" localized:NO]];
+    [partsArray addObject:[date stringFromDateWithFormat:@"MMMM" localized:NO]];
   }
   if ([self year] != NSDateComponentUndefined) {
-    [partsArray addObject:[date mt_stringFromDateWithFormat:@"yyyy" localized:NO]];
+    [partsArray addObject:[date stringFromDateWithFormat:@"yyyy" localized:NO]];
   }
   return [partsArray componentsJoinedByString:@" "];
 }
 
-- (BOOL)mt_isEqualToDateComponents:(NSDateComponents *)components
+- (BOOL)isEqualToDateComponents:(NSDateComponents *)components
 {
   BOOL era    = self.era                == components.era;
   BOOL year   = self.year               == components.year;
@@ -87,17 +87,17 @@
 
 + (NSDateComponents *)componentsFromString:(NSString *)string
 {
-    return [self mt_componentsFromString:string];
+    return [self componentsFromString:string];
 }
 
 - (NSString *)stringValue
 {
-    return [self mt_stringValue];
+    return [self stringValue];
 }
 
 - (BOOL)isEqualToDateComponents:(NSDateComponents *)components
 {
-    return [self mt_isEqualToDateComponents:components];
+    return [self isEqualToDateComponents:components];
 }
 
 #endif
